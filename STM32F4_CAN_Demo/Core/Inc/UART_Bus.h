@@ -17,7 +17,7 @@ extern "C" {
 #include "main.h"
 
 /* Exported functions prototypes ---------------------------------------------*/
-void UART_Configuration();
+void MX_USART1_UART_Init(void);
 
 #ifdef __cplusplus
 }

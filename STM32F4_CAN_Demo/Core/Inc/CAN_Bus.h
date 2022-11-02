@@ -17,6 +17,8 @@ extern "C" {
 #include "main.h"
 
 /* Exported functions prototypes ---------------------------------------------*/
+void MX_CAN1_Init(void);
+void MX_CAN2_Init(void);
 void CAN_Config(CAN_HandleTypeDef* hcan);
 void CAN_Receive(CAN_HandleTypeDef* hcan);
 void CAN_Transmit(CAN_HandleTypeDef* hcan);

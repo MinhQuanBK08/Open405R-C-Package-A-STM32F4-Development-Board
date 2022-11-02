@@ -52,6 +52,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 STM32F4_CAN_Demo.list \
 
+OBJCOPY_HEX += \
+STM32F4_CAN_Demo.hex \
+
 
 # All Target
 all: main-build
@@ -60,8 +63,8 @@ all: main-build
 main-build: STM32F4_CAN_Demo.elf secondary-outputs
 
 # Tool invocations
-STM32F4_CAN_Demo.elf STM32F4_CAN_Demo.map: $(OBJS) $(USER_OBJS) E:\STM\STM32F4\Open405R-C-Package-A-STM32F4-Development-Board\STM32F4_CAN_Demo\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32F4_CAN_Demo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\STM\STM32F4\Open405R-C-Package-A-STM32F4-Development-Board\STM32F4_CAN_Demo\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F4_CAN_Demo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32F4_CAN_Demo.elf STM32F4_CAN_Demo.map: $(OBJS) $(USER_OBJS) /Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/STM32F4_CAN_Demo/STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32F4_CAN_Demo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/STM32F4_CAN_Demo/STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F4_CAN_Demo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,12 +78,17 @@ STM32F4_CAN_Demo.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS
 	@echo 'Finished building: $@'
 	@echo ' '
 
+STM32F4_CAN_Demo.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "STM32F4_CAN_Demo.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) STM32F4_CAN_Demo.elf STM32F4_CAN_Demo.list STM32F4_CAN_Demo.map default.size.stdout
+	-$(RM) STM32F4_CAN_Demo.elf STM32F4_CAN_Demo.hex STM32F4_CAN_Demo.list STM32F4_CAN_Demo.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
