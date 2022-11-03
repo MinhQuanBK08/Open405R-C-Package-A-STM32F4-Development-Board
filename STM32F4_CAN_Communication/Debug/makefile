@@ -52,6 +52,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 STM32F4_CAN_Communication.list \
 
+OBJCOPY_HEX += \
+STM32F4_CAN_Communication.hex \
+
 
 # All Target
 all: main-build
@@ -75,12 +78,17 @@ STM32F4_CAN_Communication.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_
 	@echo 'Finished building: $@'
 	@echo ' '
 
+STM32F4_CAN_Communication.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "STM32F4_CAN_Communication.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) STM32F4_CAN_Communication.elf STM32F4_CAN_Communication.list STM32F4_CAN_Communication.map default.size.stdout
+	-$(RM) STM32F4_CAN_Communication.elf STM32F4_CAN_Communication.hex STM32F4_CAN_Communication.list STM32F4_CAN_Communication.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
