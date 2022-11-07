@@ -63,8 +63,8 @@ all: main-build
 main-build: STM32F4_CAN_Communication.elf secondary-outputs
 
 # Tool invocations
-STM32F4_CAN_Communication.elf STM32F4_CAN_Communication.map: $(OBJS) $(USER_OBJS) /Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/STM32F4_CAN_Communication/STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32F4_CAN_Communication.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/STM32F4_CAN_Communication/STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F4_CAN_Communication.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32F4_CAN_Communication.elf STM32F4_CAN_Communication.map: $(OBJS) $(USER_OBJS) E:\STM\STM32F4\Open405R-C-Package-A-STM32F4-Development-Board\STM32F4_CAN_Communication\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32F4_CAN_Communication.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\STM\STM32F4\Open405R-C-Package-A-STM32F4-Development-Board\STM32F4_CAN_Communication\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F4_CAN_Communication.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
