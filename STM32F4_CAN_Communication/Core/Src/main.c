@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -72,9 +72,9 @@ static void MX_CAN2_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 #ifdef __GNUC__
- /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
+/* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
  set to 'Yes') calls __io_putchar() */
- #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #else
  #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
@@ -100,18 +100,17 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
   HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO1, &Node2_RxHeader, Node2_RxData);
   if (Node2_RxHeader.DLC == 8)
   {
-    printf("Node 2 get data: %s\r\n", Node2_RxData);
+    printf("Node2 get data: %s\r\n", Node2_RxData);
     HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
   }
 }
 
-
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -148,12 +147,10 @@ int main(void)
   // Activate the notification
   HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO1_MSG_PENDING);
 
-
   Node1_TxHeader.DLC = 8;  // data length
   Node1_TxHeader.IDE = CAN_ID_STD;
   Node1_TxHeader.RTR = CAN_RTR_DATA;
   Node1_TxHeader.StdId = 0x555;  // ID
-
 
   Node1_TxData[0] = 'H';
   Node1_TxData[1] = 'i';
@@ -169,7 +166,6 @@ int main(void)
   Node2_TxHeader.RTR = CAN_RTR_DATA;
   Node2_TxHeader.StdId = 0x2AA;  // ID
 
-
   Node2_TxData[0] = 'B';
   Node2_TxData[1] = 'y';
   Node2_TxData[2] = 'e';
@@ -184,10 +180,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED0_Pin);
-	  HAL_CAN_AddTxMessage(&hcan1, &Node1_TxHeader, Node1_TxData, &Node1_TxMailbox);
-	  HAL_CAN_AddTxMessage(&hcan2, &Node2_TxHeader, Node2_TxData, &Node2_TxMailbox);
-	  HAL_Delay(500);
+    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED0_Pin);
+    HAL_CAN_AddTxMessage(&hcan1, &Node1_TxHeader, Node1_TxData,
+        &Node1_TxMailbox);
+    HAL_CAN_AddTxMessage(&hcan2, &Node2_TxHeader, Node2_TxData,
+        &Node2_TxMailbox);
+    HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -196,22 +194,24 @@ int main(void)
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_OscInitTypeDef RCC_OscInitStruct =
+  { 0 };
+  RCC_ClkInitTypeDef RCC_ClkInitStruct =
+  { 0 };
 
   /** Configure the main internal regulator output voltage
-  */
+   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -226,9 +226,9 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+      | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
@@ -241,10 +241,10 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief CAN1 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief CAN1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_CAN1_Init(void)
 {
 
@@ -275,15 +275,15 @@ static void MX_CAN1_Init(void)
   CAN_FilterTypeDef canfilterconfig;
 
   canfilterconfig.FilterActivation = CAN_FILTER_ENABLE;
-  canfilterconfig.FilterBank = 18;  // which filter bank to use from the assigned ones
+  canfilterconfig.FilterBank = 18; // which filter bank to use from the assigned ones
   canfilterconfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;
-  canfilterconfig.FilterIdHigh = 0x2AA<<5;
+  canfilterconfig.FilterIdHigh = 0x2AA << 5;
   canfilterconfig.FilterIdLow = 0;
-  canfilterconfig.FilterMaskIdHigh = 0x2AA<<5;
+  canfilterconfig.FilterMaskIdHigh = 0x2AA << 5;
   canfilterconfig.FilterMaskIdLow = 0x0000;
   canfilterconfig.FilterMode = CAN_FILTERMODE_IDMASK;
   canfilterconfig.FilterScale = CAN_FILTERSCALE_32BIT;
-  canfilterconfig.SlaveStartFilterBank = 20;  // how many filters to assign to the CAN1 (master can)
+  canfilterconfig.SlaveStartFilterBank = 20; // how many filters to assign to the CAN1 (master can)
 
   HAL_CAN_ConfigFilter(&hcan1, &canfilterconfig);
   /* USER CODE END CAN1_Init 2 */
@@ -291,10 +291,10 @@ static void MX_CAN1_Init(void)
 }
 
 /**
-  * @brief CAN2 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief CAN2 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_CAN2_Init(void)
 {
 
@@ -325,15 +325,15 @@ static void MX_CAN2_Init(void)
   CAN_FilterTypeDef canfilterconfig;
 
   canfilterconfig.FilterActivation = CAN_FILTER_ENABLE;
-  canfilterconfig.FilterBank = 10;  // which filter bank to use from the assigned ones
+  canfilterconfig.FilterBank = 10; // which filter bank to use from the assigned ones
   canfilterconfig.FilterFIFOAssignment = CAN_FILTER_FIFO1;
-  canfilterconfig.FilterIdHigh = 0x555<<5;
+  canfilterconfig.FilterIdHigh = 0x555 << 5;
   canfilterconfig.FilterIdLow = 0;
-  canfilterconfig.FilterMaskIdHigh = 0x555<<5;
+  canfilterconfig.FilterMaskIdHigh = 0x555 << 5;
   canfilterconfig.FilterMaskIdLow = 0x0000;
   canfilterconfig.FilterMode = CAN_FILTERMODE_IDMASK;
   canfilterconfig.FilterScale = CAN_FILTERSCALE_32BIT;
-  canfilterconfig.SlaveStartFilterBank = 0;  // doesn't matter in single can controllers
+  canfilterconfig.SlaveStartFilterBank = 0; // doesn't matter in single can controllers
 
   HAL_CAN_ConfigFilter(&hcan2, &canfilterconfig);
   /* USER CODE END CAN2_Init 2 */
@@ -341,10 +341,10 @@ static void MX_CAN2_Init(void)
 }
 
 /**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief USART1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_USART1_UART_Init(void)
 {
 
@@ -374,13 +374,14 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief GPIO Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_GPIO_Init(void)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  GPIO_InitTypeDef GPIO_InitStruct =
+  { 0 };
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
@@ -388,10 +389,11 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LED0_Pin|LED1_Pin|LED2_Pin|LED3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, LED0_Pin | LED1_Pin | LED2_Pin | LED3_Pin,
+      GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED0_Pin LED1_Pin LED2_Pin LED3_Pin */
-  GPIO_InitStruct.Pin = LED0_Pin|LED1_Pin|LED2_Pin|LED3_Pin;
+  GPIO_InitStruct.Pin = LED0_Pin | LED1_Pin | LED2_Pin | LED3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -409,16 +411,16 @@ PUTCHAR_PROTOTYPE
 {
   /* Place your implementation of fputc here */
   /* e.g. write a character to the USART */
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 100);
+  HAL_UART_Transmit(&huart1, (uint8_t*) &ch, 1, 100);
   return ch;
 }
 
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */

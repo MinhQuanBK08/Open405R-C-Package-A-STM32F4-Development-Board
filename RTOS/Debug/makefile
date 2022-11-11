@@ -67,8 +67,8 @@ all: main-build
 main-build: RTOS.elf secondary-outputs
 
 # Tool invocations
-RTOS.elf RTOS.map: $(OBJS) $(USER_OBJS) /Users/MinhQuan/Documents/STM32/RTOS/STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "RTOS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/MinhQuan/Documents/STM32/RTOS/STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+RTOS.elf RTOS.map: $(OBJS) $(USER_OBJS) /Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/RTOS/STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "RTOS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/RTOS/STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -63,8 +63,8 @@ all: main-build
 main-build: MCU_Interfaces.elf secondary-outputs
 
 # Tool invocations
-MCU_Interfaces.elf MCU_Interfaces.map: $(OBJS) $(USER_OBJS) /Users/MinhQuan/Documents/STM32/MCU_Interfaces/STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "MCU_Interfaces.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/MinhQuan/Documents/STM32/MCU_Interfaces/STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MCU_Interfaces.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+MCU_Interfaces.elf MCU_Interfaces.map: $(OBJS) $(USER_OBJS) /Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/MCU_Interfaces/STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "MCU_Interfaces.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/MinhQuan/STM32CubeIDE/workspace_1.10.1/Open405R-C-Package-A-STM32F4DevelopmentBoard/MCU_Interfaces/STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MCU_Interfaces.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
