@@ -11,15 +11,7 @@
 #include "Flash.h"
 #include "main.h"
 
-// If using STM32H7Ax/BX Series, uncomment the line below
-//#define FLASHWORD     4
-
-// If using any other STM32H7 Series, uncomment the line below
-#define FLASHWORD   8
-
-// There are 2 BANKS available for H745, BANK 1 (0x0800 0000 - 0x080F FFFF) and BANK 2 (0x0810 0000 - 0x080F FFFF)
-// Both of them have Sectors 0 to 7.
-// We will define the sectors in normal way (like Defined below), and later the BANK will be taken care by the HAL
+#define FLASHWORD     4
 
 uint32_t GetSector(uint32_t Address)
 {
@@ -110,16 +102,6 @@ uint32_t GetSector(uint32_t Address)
   return sector;
 }
 
-/* Some Controllers like STM32H7Ax have 128 sectors. It's not possible to write each one of them here.
- You can come up with easier ways to set the sector numbers. FOR EXAMPLE
- static uint32_t GetSector(uint32_t Address)
- {
- uint16_t address = Address-0x08000000;
- int mentissa = address/8192;  // Each Sector is 8 KB
- return mentissa;
- }
- */
-
 uint8_t bytes_temp[4];
 
 void float2Bytes(uint8_t *ftoa_bytes_temp, float float_variable)
@@ -156,15 +138,6 @@ float Bytes2float(uint8_t *ftoa_bytes_temp)
   return float_variable;
 }
 
-/* The DATA to be written here MUST be according to the List Shown Below
- For EXAMPLE:- For H74x/5x, a single data must be 8 numbers of 32 bits word
- If you try to write a single 32 bit word, it will automatically write 0's for the rest 7
- *          - 256 bits for STM32H74x/5X devices (8x 32bits words)
- *          - 128 bits for STM32H7Ax/BX devices (4x 32bits words)
- *          - 256 bits for STM32H72x/3X devices (8x 32bits words)
- *
- */
-
 uint32_t Flash_Write_Data(uint32_t StartSectorAddress, uint32_t *data,
     uint16_t numberofwords)
 {
@@ -188,22 +161,6 @@ uint32_t Flash_Write_Data(uint32_t StartSectorAddress, uint32_t *data,
   EraseInitStruct.TypeErase = FLASH_TYPEERASE_SECTORS;
   EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
   EraseInitStruct.Sector = StartSector;
-
-  // The the proper BANK to erase the Sector
-  /*-------------------------- STM32F40xxx/STM32F41xxx/STM32F401xx/STM32F411xx/STM32F423xx -----------------------*/
-#if defined(STM32F405xx) || defined(STM32F415xx) || defined(STM32F407xx) || defined(STM32F417xx) ||\
-    defined(STM32F401xC) || defined(STM32F401xE) || defined(STM32F410Tx) || defined(STM32F410Cx) ||\
-    defined(STM32F410Rx) || defined(STM32F411xE) || defined(STM32F446xx) || defined(STM32F412Zx) ||\
-    defined(STM32F412Vx) || defined(STM32F412Rx) || defined(STM32F412Cx) || defined(STM32F413xx) ||\
-    defined(STM32F423xx)
-  if (StartSectorAddress < 0x08100000)
-      EraseInitStruct.Banks = FLASH_BANK_1;
-#endif
-  /*if (StartSectorAddress < 0x08100000)
-    EraseInitStruct.Banks = FLASH_BANK_1;
-
-  else
-    EraseInitStruct.Banks = FLASH_BANK_2;*/
 
   EraseInitStruct.NbSectors = (EndSector - StartSector) + 1;
 

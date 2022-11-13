@@ -33,6 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -96,7 +97,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_FLASH_Unlock();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,7 +105,6 @@ int main(void)
   while (1)
   {
 	  printf("Write to Flash\r\n");
-	  FLASH_SetSectorAddrs(11, 0x08040000);
 	  FLASH_Write(0, buffer, sizeof(buffer), DATA_TYPE_8);
 	  HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
 	  printf("Done!\r\n");
